@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RestaurantSurvey.MainPage"
+             Title="Бронь столика"
+             x:Name="_mainPage_">
+
+    <ScrollView x:Name="_mainScrollView_">
+        <VerticalStackLayout x:Name="_rootLayout_"
+                             Padding="20"
+                             Spacing="15">
+
+            <Label x:Name="_titleLabel_"
+                   Text="Ресторан «Огузок»"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Image x:Name="_restaurantImage_"
+                   Source="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+                   Aspect="AspectFill"
+                   HeightRequest="160" />
+
+            <Grid x:Name="_contactGrid_"
+                  RowDefinitions="Auto, Auto"
+                  ColumnDefinitions="Auto, *"
+                  RowSpacing="10"
+                  ColumnSpacing="10">
+
+                <Label x:Name="_nameLabel_"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Text="Имя гостя*:"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+
+                <Entry x:Name="_nameEntry_"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Placeholder="Введите ваше имя"
+                       Keyboard="Text"
+                       MaxLength="30"
+                       TextChanged="OnRequiredFieldChanged" />
+
+                <Label x:Name="_phoneLabel_"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       Text="Телефон*:"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+
+                <Entry x:Name="_phoneEntry_"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Placeholder="+7 (999) 000-00-00"
+                       Keyboard="Telephone"
+                       MaxLength="18"
+                       TextChanged="OnRequiredFieldChanged" />
+            </Grid>
+
+            <Label x:Name="_dateTitleLabel_"
+                   Text="Дата бронирования:"
+                   FontSize="15"
+                   FontAttributes="Bold" />
+
+            <DatePicker x:Name="_bookingDatePicker_"
+                        Format="dd.MM.yyyy"
+                        Date="2026-10-24"
+                        MinimumDate="2026-10-23"
+                        MaximumDate="2026-12-31" />
+
+            <Label x:Name="_timeTitleLabel_"
+                   Text="Время визита:"
+                   FontSize="15"
+                   FontAttributes="Bold" />
+
+            <Picker x:Name="_timePicker_"
+                    Title="Выберите удобное время">
+                <Picker.Items>
+                    <x:String>12:00 - Обед</x:String>
+                    <x:String>15:00 - Чай/Десерты</x:String>
+                    <x:String>19:00 - Ужин</x:String>
+                    <x:String>21:00 - Поздний ужин</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label x:Name="_zoneTitleLabel_"
+                   Text="Зона посадки:"
+                   FontSize="15"
+                   FontAttributes="Bold" />
+
+            <VerticalStackLayout x:Name="_radioGroupLayout_" Spacing="6">
+                <RadioButton x:Name="_mainHallRadio_"
+                             Content="Основной зал"
+                             GroupName="SeatingZone"
+                             Value="Основной зал"
+                             IsChecked="True" />
+                <RadioButton x:Name="_terraceRadio_"
+                             Content="Летняя терраса"
+                             GroupName="SeatingZone"
+                             Value="Летняя терраса" />
+                <RadioButton x:Name="_vipRadio_"
+                             Content="Уединенная VIP-зона"
+                             GroupName="SeatingZone"
+                             Value="VIP-комната" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout x:Name="_guestsHeaderLayout_" Spacing="8">
+                <Label x:Name="_guestsTitleLabel_"
+                       Text="Количество персон:"
+                       FontSize="15"
+                       FontAttributes="Bold" />
+
+                <Label x:Name="_guestsValueLabel_"
+                       Text="{Binding Source={x:Reference _guestsSlider_}, Path=Value, StringFormat='{0:F0} чел.'}"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="Maroon" />
+            </HorizontalStackLayout>
+
+            <Slider x:Name="_guestsSlider_"
+                    Minimum="1"
+                    Maximum="10"
+                    Value="2" />
+
+            <HorizontalStackLayout x:Name="_celebrationLayout_" Spacing="10">
+                <Switch x:Name="_celebrationSwitch_"
+                        IsToggled="False"
+                        OnColor="Firebrick"
+                        Toggled="OnCelebrationToggled" />
+                <Label x:Name="_celebrationLabel_"
+                       Text="Особый повод (день рождения/юбилей)"
+                       VerticalOptions="Center"
+                       FontSize="14" />
+            </HorizontalStackLayout>
+
+            <Label x:Name="_optionsTitleLabel_"
+                   Text="Дополнительные пожелания:"
+                   FontSize="15"
+                   FontAttributes="Bold" />
+
+            <VerticalStackLayout x:Name="_checkboxesLayout_" Spacing="5">
+                <HorizontalStackLayout x:Name="_babyChairLayout_" Spacing="8">
+                    <CheckBox x:Name="_babyChairCheckBox_"
+                              IsChecked="False"
+                              Color="SteelBlue" />
+                    <Label x:Name="_babyChairLabel_"
+                           Text="Детский стульчик"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout x:Name="_sommelierLayout_" Spacing="8">
+                    <CheckBox x:Name="_sommelierCheckBox_"
+                              IsChecked="False"
+                              Color="SteelBlue" />
+                    <Label x:Name="_sommelierLabel_"
+                           Text="Консультация сомелье"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Label x:Name="_commentsTitleLabel_"
+                   Text="Особые пожелания или аллергии:"
+                   FontSize="15"
+                   FontAttributes="Bold" />
+
+            <Editor x:Name="_wishesEditor_"
+                    Placeholder="Укажите аллергии, любимый столик или детали..."
+                    AutoSize="TextChanges"
+                    MaxLength="250" />
+
+            <HorizontalStackLayout x:Name="_buttonsLayout_"
+                                   Spacing="12"
+                                   Margin="0,15,0,0">
+                <Button x:Name="_submitButton_"
+                        Text="Показать результат"
+                        IsEnabled="False"
+                        Clicked="OnSubmitClicked" />
+
+                <Button x:Name="_resetButton_"
+                        Text="Очистить"
+                        Clicked="OnResetClicked" />
+            </HorizontalStackLayout>
+
+            <Frame x:Name="_resultFrame_"
+                   IsVisible="False"
+                   Margin="0,10,0,10"
+                   Padding="12"
+                   BorderColor="DimGray">
+                <Label x:Name="_resultLabel_"
+                       Text=""
+                       FontSize="14"
+                       FontAttributes="None" />
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
